@@ -145,7 +145,7 @@
 		55FB9072267AA199008EF444 /* Collection */ = {
 			isa = PBXGroup;
 			children = (
-				55FB907A267AA714008EF444 /* Provider */,
+				55FB9080267AB064008EF444 /* Provider */,
 				55FB9075267AA1B6008EF444 /* Cell */,
 			);
 			path = Collection;
@@ -175,12 +175,12 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		55FB907A267AA714008EF444 /* Provider */ = {
+		55FB9080267AB064008EF444 /* Provider */ = {
 			isa = PBXGroup;
 			children = (
 				55FB907B267AA736008EF444 /* MostPopularMovieCollectionViewProvider.swift */,
 			);
-			name = Provider;
+			path = Provider;
 			sourceTree = "<group>";
 		};
 		56494A788D441FB04CD0FE9E /* Pods */ = {
