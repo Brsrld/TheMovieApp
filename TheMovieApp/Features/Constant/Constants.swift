@@ -17,4 +17,5 @@ struct Constants {
     static let nilValue = ""
     static let mostPopularTitle = "Most Populars"
     static let searchTitle = "Search"
+    static let videosCollectionViewID = "VideosCollectionView"
 }

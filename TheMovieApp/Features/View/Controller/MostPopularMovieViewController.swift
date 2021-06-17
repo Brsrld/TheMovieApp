@@ -20,6 +20,12 @@ class MostPopularMovieViewController: UIViewController {
     private var searchedMovie: [MostPopularMovie] = []
     private var allMovies: [MostPopularMovie] = []
     
+    private let scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        return scroll
+    }()
+    
     let mostPopularCollectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -31,13 +37,27 @@ class MostPopularMovieViewController: UIViewController {
         return cv
     }()
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.clipsToBounds = true
+        label.text = "Most Populars"
+        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.textColor = .black
+        return label
+    }()
+    
+    
     //MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        view.addSubview(mostPopularCollectionView)
-       
+        view.backgroundColor = .white
+    
+        view.addSubview(scrollView)
+        scrollView.addSubview(mostPopularCollectionView)
+        scrollView.addSubview(titleLabel)
+        
         service()
         initDelegate()
         setupUI()
@@ -48,6 +68,8 @@ class MostPopularMovieViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         mostPopularCollectionView.contentSize = CGSize(width: mostPopularCollectionView.frame.width, height:  UIScreen.main.bounds.height)
+        scrollView.delegate = self
+        scrollView.contentSize = CGSize(width: scrollView.frame.width, height:  UIScreen.main.bounds.height)
     }
     
     //MARK: Functions
@@ -70,8 +92,7 @@ class MostPopularMovieViewController: UIViewController {
     }
     
     private func navigationBarSetup() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = Constants.mostPopularTitle
+        navigationController?.navigationBar.prefersLargeTitles = false
         searchBar.placeholder = Constants.searchTitle
         searchBar.sizeToFit()
         searchBar.delegate = self
@@ -81,10 +102,21 @@ class MostPopularMovieViewController: UIViewController {
     }
     
     private func setupUI() {
+        
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
         mostPopularCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        mostPopularCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        mostPopularCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
         mostPopularCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         mostPopularCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor , constant: 10).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+      
     }
     
     private func setIndicator() {
@@ -98,16 +130,19 @@ class MostPopularMovieViewController: UIViewController {
 
 //MARK: Extensions
 
-extension MostPopularMovieViewController:MostPopularMovieCollecionViewOutput{
-    func onSelected() {
-        print("")
+extension MostPopularMovieViewController: MostPopularMovieCollecionViewOutput{
+    
+    func getNavCont() -> UINavigationController? {
+        return navigationController
     }
 }
 
-extension MostPopularMovieViewController:UISearchBarDelegate {
+extension MostPopularMovieViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchedMovie = allMovies.filter({($0.original_title?.prefix(searchText.count))! == searchText})
         mostPopularMovieCollecionView.update(items: searchedMovie)
         mostPopularCollectionView.reloadData()
     }
 }
+
+extension MostPopularMovieViewController: UIScrollViewDelegate {}

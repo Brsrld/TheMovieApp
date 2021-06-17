@@ -12,7 +12,7 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
     
     // MARK: View Properties
     
-    private var movieImage: UIImageView = {
+    private var movieImageLabel: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFit
@@ -20,11 +20,11 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
-    private var movieName: UILabel = {
+    private var movieNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .black
         label.textAlignment = .left
         label.backgroundColor = .white
@@ -32,7 +32,7 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private var movieOverview: UILabel = {
+    private var movieOverviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
@@ -44,15 +44,11 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.addSubview(movieImage)
-        contentView.addSubview(movieName)
-        contentView.addSubview(movieOverview)
+        contentView.addSubview(movieImageLabel)
+        contentView.addSubview(movieNameLabel)
+        contentView.addSubview(movieOverviewLabel)
         contentView.backgroundColor = .white
         setupUI()
         shadowForContentView()
@@ -62,9 +58,9 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
     // MARK: Functions
     
     private func setupUI() {
-        movieImage.frame = CGRect(x: -27, y: -6, width: contentView.frame.size.width / 2, height: contentView.frame.size.height + 6)
-        movieName.frame = CGRect(x: movieImage.frame.width - 30, y:10, width: contentView.frame.size.width - movieImage.frame.width, height: contentView.frame.size.height / 3)
-        movieOverview.frame = CGRect(x: movieImage.frame.width - 30, y:movieName.frame.height + 10, width: contentView.frame.size.width - movieImage.frame.width, height: contentView.frame.size.height - 90)
+        movieImageLabel.frame = CGRect(x: -27, y: -50, width: contentView.frame.size.width / 2, height: contentView.frame.size.height + 50)
+        movieNameLabel.frame = CGRect(x: movieImageLabel.frame.width - 30, y:10, width: contentView.frame.size.width - movieImageLabel.frame.width, height: contentView.frame.size.height / 3)
+        movieOverviewLabel.frame = CGRect(x: movieImageLabel.frame.width - 30, y:movieNameLabel.frame.height + 10, width: contentView.frame.size.width - movieImageLabel.frame.width, height: contentView.frame.size.height - 90)        
     }
     
     private func shadowForContentView() {
@@ -75,17 +71,16 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
     }
     
     private func shadowForImage() {
-        layer.cornerRadius  = 40
-        movieImage.layer.cornerRadius = layer.cornerRadius
-        layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: 1, height: 1)
+        movieImageLabel.layer.cornerRadius = 10
+        movieImageLabel.layer.shadowOpacity = 1
+        movieImageLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
     }
     
     //MARK: Configure Cell
     
     func configure (title: String, image: String, overview: String) {
-        movieName.text = title
-        movieImage.kf.setImage(with: URL(string: Constants.imageUrl + image))
-        movieOverview.text = overview
+        movieNameLabel.text = title
+        movieImageLabel.kf.setImage(with: URL(string: Constants.imageUrl + image))
+        movieOverviewLabel.text = overview
     }
 }

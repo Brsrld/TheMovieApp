@@ -15,7 +15,7 @@ protocol MostPopularMovieCollecionViewProtocol {
 }
 
 protocol MostPopularMovieCollecionViewOutput: AnyObject {
-    func onSelected()
+    func getNavCont() -> UINavigationController?
 }
 
 //MARK: CollectionView Functions
@@ -40,21 +40,25 @@ final class MostPopularMovieCollecionView: NSObject{
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newViewController = MovieDetailViewController()
+        delegate?.getNavCont()?.pushViewController(newViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 60
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let columns: CGFloat = 1.05
+        let columns: CGFloat = 1.1
         let collectionViewWidth = collectionView.bounds.width
         let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
         let spaceBetweenCells = flowLayout.minimumInteritemSpacing * (columns - 1)
         let sectionInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right
         let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
         let width: CGFloat = floor(adjustedWidth / columns)
-        let height: CGFloat = width / 1.9
+        let height: CGFloat = width / 2
         return CGSize(width: width, height: height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let searchView: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchBar", for: indexPath)
-        return searchView
     }
 }
 
