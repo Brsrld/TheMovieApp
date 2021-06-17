@@ -48,8 +48,13 @@ final class MostPopularMovieCollecionView: NSObject{
         let sectionInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right
         let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
         let width: CGFloat = floor(adjustedWidth / columns)
-        let height: CGFloat = width / 2
+        let height: CGFloat = width / 1.9
         return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let searchView: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchBar", for: indexPath)
+        return searchView
     }
 }
 

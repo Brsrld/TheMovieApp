@@ -100,10 +100,10 @@
 		55FB9067267A9E1D008EF444 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				55FB9071267AA193008EF444 /* View */,
 				55FB906E267A9F9E008EF444 /* Constant */,
 				55FB9069267A9E35008EF444 /* Service */,
 				55FB9068267A9E24008EF444 /* ServiceModel */,
+				55FB9071267AA193008EF444 /* View */,
 			);
 			path = Features;
 			sourceTree = "<group>";

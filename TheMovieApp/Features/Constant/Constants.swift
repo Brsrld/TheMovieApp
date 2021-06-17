@@ -15,4 +15,6 @@ struct Constants {
     static let apiKey = "2e02f899d2f8f67edc1662faffed3f41"
     static let mostPopularCollectionViewCellID = "mostPopularCollectionViewCell"
     static let nilValue = ""
+    static let mostPopularTitle = "Most Populars"
+    static let searchTitle = "Search"
 }

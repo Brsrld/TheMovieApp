@@ -24,10 +24,10 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.backgroundColor = .black
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .black
+        label.textAlignment = .left
+        label.backgroundColor = .white
         label.numberOfLines = 0
         return label
     }()
@@ -37,16 +37,15 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
         label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.backgroundColor = .black
+        label.textColor = .black
+        label.textAlignment = .left
+        label.backgroundColor = .white
         label.numberOfLines = 0
         return label
     }()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        shadowForImage()
     }
     
     override func layoutSubviews() {
@@ -54,25 +53,29 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(movieImage)
         contentView.addSubview(movieName)
         contentView.addSubview(movieOverview)
+        contentView.backgroundColor = .white
         setupUI()
+        shadowForContentView()
+        shadowForImage()
     }
     
     // MARK: Functions
     
     private func setupUI() {
-        movieImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        movieImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        movieImage.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        movieImage.heightAnchor.constraint(equalToConstant: contentView.frame.height/1.30).isActive = true
-        
-        movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 5).isActive = true
-        movieName.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        movieName.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        movieImage.frame = CGRect(x: -27, y: -6, width: contentView.frame.size.width / 2, height: contentView.frame.size.height + 6)
+        movieName.frame = CGRect(x: movieImage.frame.width - 30, y:10, width: contentView.frame.size.width - movieImage.frame.width, height: contentView.frame.size.height / 3)
+        movieOverview.frame = CGRect(x: movieImage.frame.width - 30, y:movieName.frame.height + 10, width: contentView.frame.size.width - movieImage.frame.width, height: contentView.frame.size.height - 90)
+    }
     
+    private func shadowForContentView() {
+        layer.cornerRadius  = 10
+        contentView.layer.cornerRadius = layer.cornerRadius
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: 1, height: 1)
     }
     
     private func shadowForImage() {
-        layer.cornerRadius  = 10
+        layer.cornerRadius  = 40
         movieImage.layer.cornerRadius = layer.cornerRadius
         layer.shadowOpacity = 1
         layer.shadowOffset = CGSize(width: 1, height: 1)
