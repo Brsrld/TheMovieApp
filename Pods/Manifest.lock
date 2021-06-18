@@ -1,20 +1,32 @@
 PODS:
   - Alamofire (5.4.3)
+  - Cosmos (23.0.0)
   - Kingfisher (6.3.0)
+  - TinyConstraints (4.0.1)
+  - youtube-ios-player-helper (1.0.3)
 
 DEPENDENCIES:
   - Alamofire
+  - Cosmos
   - Kingfisher (~> 6.0)
+  - TinyConstraints
+  - youtube-ios-player-helper
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Cosmos
     - Kingfisher
+    - TinyConstraints
+    - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
   Kingfisher: 6c3df386db71d82c0817a429d2c9421a77396529
+  TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
+  youtube-ios-player-helper: 0185c57db23c80d63d6ca11251d110abb8a4ca61
 
-PODFILE CHECKSUM: 4fdabf8fa27a4e1100e1516436bf90ab2045d515
+PODFILE CHECKSUM: 959acda7c8aafba749f2aec84d652c0d628c87dd
 
 COCOAPODS: 1.10.1

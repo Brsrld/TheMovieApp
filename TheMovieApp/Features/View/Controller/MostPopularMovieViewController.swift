@@ -75,7 +75,7 @@ class MostPopularMovieViewController: UIViewController {
     //MARK: Functions
     
     private func service() {
-        mostPopularMovieViewModel.service { models in
+        mostPopularMovieViewModel.service(url: Constants.popularMovieUrl) { models in
             self.allMovies = models
             self.mostPopularMovieCollecionView.update(items: models)
             self.mostPopularCollectionView.reloadData()

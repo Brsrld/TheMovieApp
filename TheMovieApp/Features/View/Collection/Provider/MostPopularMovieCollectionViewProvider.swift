@@ -41,8 +41,9 @@ final class MostPopularMovieCollecionView: NSObject{
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newViewController = MovieDetailViewController()
-        delegate?.getNavCont()?.pushViewController(newViewController, animated: true)
+        let vc = MovieDetailViewController()
+        vc.moviesDetail = items[indexPath.row]
+        delegate?.getNavCont()?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

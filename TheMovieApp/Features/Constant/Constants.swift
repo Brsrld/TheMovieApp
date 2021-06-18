@@ -18,4 +18,10 @@ struct Constants {
     static let mostPopularTitle = "Most Populars"
     static let searchTitle = "Search"
     static let videosCollectionViewID = "VideosCollectionView"
+    static let urlforCast = "https://api.themoviedb.org/3/movie/"
+    static let credistExtension = "/credits?api_key=\(apiKey)"
+    static let movieDetailVideosCollectionViewCellID = "MovieDetailVideosCollectionViewCell"
+    static let movieDetailCastCollectionViewCell = "MovieDetailCastCollectionViewCell"
+    static let movieDetailVideosCollectionViewCell = "MovieDetailVideosCollectionViewCell"
+    static let videoExtend = "/videos?api_key=\(apiKey)"
 }

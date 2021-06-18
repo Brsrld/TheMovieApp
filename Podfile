@@ -9,5 +9,8 @@ target 'TheMovieApp' do
   
   pod 'Alamofire'
   pod 'Kingfisher', '~> 6.0'
+  pod 'Cosmos'
+  pod 'TinyConstraints'
+  pod 'youtube-ios-player-helper'
 
 end

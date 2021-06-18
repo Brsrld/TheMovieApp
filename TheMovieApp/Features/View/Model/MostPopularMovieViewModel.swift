@@ -10,7 +10,7 @@ import Foundation
 //MARK: Protocols
 
 protocol MostPopularMovieViewModelProtocol {
-    func service(onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void)
+    func service(url:String, onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void)
 }
 
 //MARK: Model Logic
@@ -19,8 +19,8 @@ final class MostPopularMovieViewModel:NSObject {
     
     private let mostPopularModelService: MostPopularModelServiceProtocol = MostPopularModelService()
     
-    func service(onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void) {
-        mostPopularModelService.fetchAllData(onSuccess: onSuccess, onFail: onFail)
+    func service(url:String, onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void) {
+        mostPopularModelService.fetchPopularMovie(url: url, onSuccess: onSuccess, onFail: onFail)
     }
 }
 
