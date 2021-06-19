@@ -15,7 +15,7 @@ protocol MovieDetailCastCollectionViewProtocol {
 }
 
 protocol MovieDetailCastCollectionViewViewOutput: AnyObject {
-    func onSelected()
+    func getNavCont() -> UINavigationController?
 }
 
 //MARK: CollectionView Functions
@@ -33,11 +33,17 @@ final class MovieDetailCastCollectionView: NSObject{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
         
-        if let dataCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.movieDetailCastCollectionViewCell, for: indexPath) as? MovieDetailCastCollectionViewCell {
+        if let dataCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.movieDetailCastCollectionViewCellID, for: indexPath) as? MovieDetailCastCollectionViewCell {
             dataCell.configure(title: items[indexPath.row].name ?? Constants.nilValue, url: items[indexPath.row].profile_path ?? Constants.nilValue)
             cell = dataCell
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = CastDetailViewController()
+        vc.persons = items[indexPath.row]
+        delegate?.getNavCont()?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

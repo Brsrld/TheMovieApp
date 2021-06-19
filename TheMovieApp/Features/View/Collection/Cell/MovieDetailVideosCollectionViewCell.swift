@@ -25,7 +25,9 @@ class MovieDetailVideosCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var videoPlayer: YTPlayerView = {
-       let player = YTPlayerView()
+        let player = YTPlayerView()
+        player.translatesAutoresizingMaskIntoConstraints = false
+        player.contentMode = .scaleToFill
         return player
     }()
     
@@ -37,6 +39,8 @@ class MovieDetailVideosCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(videoPlayer)
         contentView.backgroundColor = .systemBackground
         shadowForContentView()
+        videoPlayer.delegate = self
+        setupUI()
     }
     
     private func shadowForContentView() {
@@ -47,15 +51,14 @@ class MovieDetailVideosCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        videoPlayer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        videoPlayer.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor).isActive = true
-        videoPlayer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        videoPlayer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        videoPlayer.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
     }
     
     //MARK: Configure Cell
-
+    
     func configureUI(videoID: String) {
-        videoPlayer.load(withVideoId: videoID)
+        videoPlayer.load(withVideoId: videoID, playerVars: ["playsinline": "1"])
     }
 }
+
+extension MovieDetailVideosCollectionViewCell:YTPlayerViewDelegate {}

@@ -10,7 +10,7 @@ import UIKit
 class MostPopularMovieViewController: UIViewController {
     
     //MARK: Variables
-   
+    
     private var mostPopularMovieViewModel: MostPopularMovieViewModel = MostPopularMovieViewModel()
     private let mostPopularMovieCollecionView: MostPopularMovieCollecionView = MostPopularMovieCollecionView()
     
@@ -47,14 +47,14 @@ class MostPopularMovieViewController: UIViewController {
         return label
     }()
     
-    
     //MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-    
+        
         view.addSubview(scrollView)
+        view.backgroundColor = .white
+        
         scrollView.addSubview(mostPopularCollectionView)
         scrollView.addSubview(titleLabel)
         
@@ -75,11 +75,13 @@ class MostPopularMovieViewController: UIViewController {
     //MARK: Functions
     
     private func service() {
+        
         mostPopularMovieViewModel.service(url: Constants.popularMovieUrl) { models in
             self.allMovies = models
             self.mostPopularMovieCollecionView.update(items: models)
             self.mostPopularCollectionView.reloadData()
             self.activityIndicator.stopAnimating()
+            
         } onFail: { error in
             print(error ?? Constants.nilValue)
         }
@@ -96,7 +98,7 @@ class MostPopularMovieViewController: UIViewController {
         searchBar.placeholder = Constants.searchTitle
         searchBar.sizeToFit()
         searchBar.delegate = self
-        searchBar.restorationIdentifier = "SearchBar"
+        searchBar.restorationIdentifier = Constants.searchBarID
         let leftNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton
     }
@@ -116,7 +118,7 @@ class MostPopularMovieViewController: UIViewController {
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor , constant: 10).isActive = true
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-      
+        
     }
     
     private func setIndicator() {
@@ -140,8 +142,13 @@ extension MostPopularMovieViewController: MostPopularMovieCollecionViewOutput{
 extension MostPopularMovieViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchedMovie = allMovies.filter({($0.original_title?.prefix(searchText.count))! == searchText})
-        mostPopularMovieCollecionView.update(items: searchedMovie)
-        mostPopularCollectionView.reloadData()
+        if searchedMovie.count == 0 {
+            
+        }else {
+            mostPopularMovieCollecionView.update(items: searchedMovie)
+            mostPopularCollectionView.reloadData()
+        }
+        
     }
 }
 

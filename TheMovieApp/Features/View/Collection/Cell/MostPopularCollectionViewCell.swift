@@ -15,7 +15,7 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
     private var movieImageLabel: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         return iv
     }()
@@ -58,9 +58,9 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
     // MARK: Functions
     
     private func setupUI() {
-        movieImageLabel.frame = CGRect(x: -27, y: -50, width: contentView.frame.size.width / 2, height: contentView.frame.size.height + 50)
-        movieNameLabel.frame = CGRect(x: movieImageLabel.frame.width - 30, y:10, width: contentView.frame.size.width - movieImageLabel.frame.width, height: contentView.frame.size.height / 3)
-        movieOverviewLabel.frame = CGRect(x: movieImageLabel.frame.width - 30, y:movieNameLabel.frame.height + 10, width: contentView.frame.size.width - movieImageLabel.frame.width, height: contentView.frame.size.height - 90)        
+        movieImageLabel.frame = CGRect(x: 0, y: -50, width: contentView.frame.size.width / 2.5, height: contentView.frame.size.height + 50)
+        movieNameLabel.frame = CGRect(x: movieImageLabel.frame.width + 10, y:10, width: contentView.frame.size.width - movieImageLabel.frame.width - 10, height: contentView.frame.size.height / 3)
+        movieOverviewLabel.frame = CGRect(x: movieImageLabel.frame.width + 10, y:movieNameLabel.frame.height + 10, width: contentView.frame.size.width - movieImageLabel.frame.width - 10, height: contentView.frame.size.height - 90)
     }
     
     private func shadowForContentView() {

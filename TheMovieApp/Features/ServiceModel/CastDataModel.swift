@@ -12,6 +12,8 @@ import Foundation
 struct CastPersons: Codable {
     let name: String?
     let profile_path: String?
+    let id: Int?
+    let known_for_department: String?
 }
 
 struct Cast: Codable {
