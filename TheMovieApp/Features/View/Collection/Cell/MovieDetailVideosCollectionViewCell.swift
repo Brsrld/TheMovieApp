@@ -44,14 +44,11 @@ class MovieDetailVideosCollectionViewCell: UICollectionViewCell {
     }
     
     private func shadowForContentView() {
-        layer.cornerRadius  = 10
-        contentView.layer.cornerRadius = layer.cornerRadius
-        layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: 1, height: 1)
+        contentView.layer.cornerRadius = 10
     }
     
     private func setupUI() {
-        videoPlayer.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+       videoPlayer.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
     }
     
     //MARK: Configure Cell

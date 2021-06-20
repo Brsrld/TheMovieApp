@@ -7,6 +7,8 @@
 
 import Foundation
 import Alamofire
+import RxCocoa
+import RxSwift
 
 //MARK: Protocol
 
@@ -22,7 +24,7 @@ protocol MostPopularModelServiceProtocol {
 //MARK: Get Datas
 
 struct MostPopularModelService: MostPopularModelServiceProtocol {
-    
+
     func fetchPopularMovie(url:String, onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void) {
         AF.request(url, method: .get).validate().responseDecodable(of: Result.self) { (response) in
             guard let items = response.value else {
@@ -72,7 +74,7 @@ struct MostPopularModelService: MostPopularModelServiceProtocol {
             onSuccess(items.cast)
         }
     }
-    
+
     func fetchCreditsTv(url:String, onSuccess: @escaping ([PeopleTvCredits]) -> Void, onFail: @escaping (String?) -> Void) {
         AF.request(url, method: .get).validate().responseDecodable(of: TvCredits.self) { (response) in
             guard let items = response.value else {
@@ -83,3 +85,4 @@ struct MostPopularModelService: MostPopularModelServiceProtocol {
         }
     }
 }
+

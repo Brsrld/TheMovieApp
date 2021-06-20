@@ -12,5 +12,7 @@ target 'TheMovieApp' do
   pod 'Cosmos'
   pod 'TinyConstraints'
   pod 'youtube-ios-player-helper'
+  pod 'RxSwift', '6.2.0'
+  pod 'RxCocoa', '6.2.0'
 
 end

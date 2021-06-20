@@ -59,7 +59,7 @@ final class MovieDetailCastCollectionView: NSObject{
         let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
         let width: CGFloat = floor(adjustedWidth / columns)
         let height: CGFloat = width / 2
-        return CGSize(width: height, height: width)
+        return CGSize(width: height, height: width / 1.2)
     }
 }
 

@@ -33,6 +33,7 @@ class MovieDetailViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(MovieDetailVideosCollectionViewCell.self, forCellWithReuseIdentifier: Constants.movieDetailVideosCollectionViewCellID)
+        cv.clipsToBounds = true
         cv.backgroundColor = .white
         cv.tag = 0
         return cv
@@ -45,6 +46,7 @@ class MovieDetailViewController: UIViewController {
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(MovieDetailCastCollectionViewCell.self, forCellWithReuseIdentifier: Constants.movieDetailCastCollectionViewCellID)
         cv.backgroundColor = .white
+        cv.clipsToBounds = true
         cv.tag = 1
         return cv
     }()
@@ -213,6 +215,7 @@ class MovieDetailViewController: UIViewController {
     
     private func shadowForImage() {
         movieImage.layer.cornerRadius = 10
+        videosCollectionView.layer.cornerRadius = 10
         movieImage.layer.shadowOpacity = 1
         movieImage.layer.shadowOffset = CGSize(width: 1, height: 1)
     }
@@ -234,13 +237,13 @@ class MovieDetailViewController: UIViewController {
         bigImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         bigImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         bigImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        bigImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor,constant: 100).isActive = true
+        bigImage.heightAnchor.constraint(equalToConstant: view.frame.height / 1.9).isActive = true
         
         viewforImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         viewforImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         viewforImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        viewforImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor,constant: 100).isActive = true
-        
+        viewforImage.heightAnchor.constraint(equalToConstant: view.frame.height / 1.9).isActive = true
+
         movieImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 40).isActive = true
         movieImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100).isActive = true
         movieImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100).isActive = true
@@ -250,15 +253,15 @@ class MovieDetailViewController: UIViewController {
         titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
-        summaryLabel.topAnchor.constraint(equalTo: rateStar.bottomAnchor, constant: 50).isActive = true
+        summaryLabel.topAnchor.constraint(equalTo: rateStar.bottomAnchor, constant: 30).isActive = true
         summaryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         summaryLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
-        overviewLabel.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 10).isActive = true
+        overviewLabel.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 20).isActive = true
         overviewLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         overviewLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
-        videosLabel.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 30).isActive = true
+        videosLabel.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 20).isActive = true
         videosLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         videosLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
@@ -267,7 +270,7 @@ class MovieDetailViewController: UIViewController {
         videosCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         videosCollectionView.heightAnchor.constraint(equalToConstant: view.frame.height / 5).isActive = true
         
-        castsLabel.topAnchor.constraint(equalTo: videosCollectionView.bottomAnchor, constant: 30).isActive = true
+        castsLabel.topAnchor.constraint(equalTo: videosCollectionView.bottomAnchor, constant: 20).isActive = true
         castsLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         castsLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
@@ -275,7 +278,7 @@ class MovieDetailViewController: UIViewController {
         castsCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         castsCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         castsCollectionView.heightAnchor.constraint(equalToConstant: view.frame.height / 3.2).isActive = true
-        castsCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 20).isActive = true
+        castsCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20).isActive = true
         
     }
 }

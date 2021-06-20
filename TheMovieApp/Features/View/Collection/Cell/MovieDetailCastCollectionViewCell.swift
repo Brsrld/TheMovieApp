@@ -14,7 +14,9 @@ class MovieDetailCastCollectionViewCell: UICollectionViewCell {
     
     private var actorImage: UIImageView = {
         let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleToFill
+        iv.clipsToBounds = true
         return iv
     }()
     
@@ -22,9 +24,9 @@ class MovieDetailCastCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 16.5)
         label.textColor = .black
-        label.textAlignment = .left
+        label.textAlignment = .center
         label.numberOfLines = 0
         return label
     }()
@@ -34,7 +36,7 @@ class MovieDetailCastCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubview(actorImage)
         contentView.addSubview(actorNameLabel)
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .white
         
         setupUI()
         shadowEffect()
@@ -43,13 +45,13 @@ class MovieDetailCastCollectionViewCell: UICollectionViewCell {
     // MARK: Functions
     
     private func setupUI() {
-        actorImage.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height - 40)
-        actorNameLabel.frame = CGRect(x: 0, y:actorImage.frame.height + 10, width: contentView.frame.size.width, height:20)
+        actorImage.frame = CGRect(x:0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height / 1.2)
+        actorNameLabel.frame = CGRect(x:0, y: actorImage.frame.height, width: contentView.frame.size.width, height: contentView.frame.size.height - actorImage.frame.size.height )
+    
     }
 
     private func shadowEffect() {
         actorImage.layer.cornerRadius = 10
-        contentView.layer.cornerRadius = 10
         actorImage.layer.shadowOpacity = 1
         actorImage.layer.shadowOffset = CGSize(width: 1, height: 1)
     }

@@ -243,19 +243,19 @@ class CastDetailViewController: UIViewController {
         bigImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         bigImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         bigImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        bigImage.bottomAnchor.constraint(equalTo: personImage.bottomAnchor,constant: 80).isActive = true
+        bigImage.heightAnchor.constraint(equalToConstant: view.frame.height / 2.05).isActive = true
 
         viewforImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         viewforImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         viewforImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        viewforImage.bottomAnchor.constraint(equalTo: personImage.bottomAnchor,constant: 80).isActive = true
+        viewforImage.heightAnchor.constraint(equalToConstant: view.frame.height / 2.05).isActive = true
         
         personImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
         personImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100).isActive = true
         personImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100).isActive = true
         personImage.heightAnchor.constraint(equalToConstant: view.frame.height / 3).isActive = true
-        
-        nameLabel.topAnchor.constraint(equalTo: personImage.bottomAnchor, constant: 15).isActive = true
+     
+        nameLabel.topAnchor.constraint(equalTo: personImage.bottomAnchor, constant: 20).isActive = true
         nameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
         nameLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
         
@@ -271,7 +271,7 @@ class CastDetailViewController: UIViewController {
         biographyOverviewLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         biographyOverviewLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
-        moviesLabel.topAnchor.constraint(equalTo: biographyOverviewLabel.bottomAnchor, constant: 50).isActive = true
+        moviesLabel.topAnchor.constraint(equalTo: biographyOverviewLabel.bottomAnchor, constant: 30).isActive = true
         moviesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         moviesLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
@@ -281,7 +281,7 @@ class CastDetailViewController: UIViewController {
         moviesCollectionView.heightAnchor.constraint(equalToConstant: view.frame.height / 5).isActive = true
         moviesCollectionView.bottomAnchor.constraint(equalTo: tvLabel.topAnchor, constant: -20).isActive = true
         
-        tvLabel.topAnchor.constraint(equalTo: moviesCollectionView.bottomAnchor, constant: 20).isActive = true
+        tvLabel.topAnchor.constraint(equalTo: moviesCollectionView.bottomAnchor, constant: 30).isActive = true
         tvLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         tvLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
@@ -289,7 +289,7 @@ class CastDetailViewController: UIViewController {
         tVCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         tVCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         tVCollectionView.heightAnchor.constraint(equalToConstant: view.frame.height / 5).isActive = true
-        tVCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        tVCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20).isActive = true
     }
 }
 
