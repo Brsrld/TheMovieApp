@@ -38,6 +38,7 @@
 		55FB9079267AA38B008EF444 /* MostPopularCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FB9078267AA38B008EF444 /* MostPopularCollectionViewCell.swift */; };
 		55FB907C267AA736008EF444 /* MostPopularMovieCollectionViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FB907B267AA736008EF444 /* MostPopularMovieCollectionViewProvider.swift */; };
 		55FB907E267AA8B7008EF444 /* MostPopularMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FB907D267AA8B7008EF444 /* MostPopularMovieViewModel.swift */; };
+		55FE7C5C2680A87C0096660E /* ServiceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FE7C5B2680A87C0096660E /* ServiceInit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		55FB9078267AA38B008EF444 /* MostPopularCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostPopularCollectionViewCell.swift; sourceTree = "<group>"; };
 		55FB907B267AA736008EF444 /* MostPopularMovieCollectionViewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostPopularMovieCollectionViewProvider.swift; sourceTree = "<group>"; };
 		55FB907D267AA8B7008EF444 /* MostPopularMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostPopularMovieViewModel.swift; sourceTree = "<group>"; };
+		55FE7C5B2680A87C0096660E /* ServiceInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceInit.swift; sourceTree = "<group>"; };
 		7F3A0EBA839A30079EE18DCC /* Pods_TheMovieApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheMovieApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9541DB083D93513383FB455B /* Pods-TheMovieApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheMovieApp.debug.xcconfig"; path = "Target Support Files/Pods-TheMovieApp/Pods-TheMovieApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,6 +160,7 @@
 		55FB9069267A9E35008EF444 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				55FE7C5A2680A8630096660E /* ServiceInit */,
 				55FB906C267A9F8D008EF444 /* MostPopularMovieService.swift */,
 			);
 			path = Service;
@@ -232,6 +235,14 @@
 				553E23D4267E5ED900B54CBB /* CastDetailPeopleTvCollectonViewProvider.swift */,
 			);
 			path = Provider;
+			sourceTree = "<group>";
+		};
+		55FE7C5A2680A8630096660E /* ServiceInit */ = {
+			isa = PBXGroup;
+			children = (
+				55FE7C5B2680A87C0096660E /* ServiceInit.swift */,
+			);
+			path = ServiceInit;
 			sourceTree = "<group>";
 		};
 		56494A788D441FB04CD0FE9E /* Pods */ = {
@@ -366,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55FB9057267A9DF0008EF444 /* ViewController.swift in Sources */,
+				55FE7C5C2680A87C0096660E /* ServiceInit.swift in Sources */,
 				55FB9077267AA1E2008EF444 /* MostPopularMovieViewController.swift in Sources */,
 				553E23C7267DF4CA00B54CBB /* CastDetailViewController.swift in Sources */,
 				55FB906D267A9F8D008EF444 /* MostPopularMovieService.swift in Sources */,

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class MostPopularMovieViewController: UIViewController {
     
@@ -16,9 +18,7 @@ class MostPopularMovieViewController: UIViewController {
     
     lazy var searchBar:UISearchBar = UISearchBar()
     private var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    
-    private var searchedMovie: [MostPopularMovie] = []
-    private var allMovies: [MostPopularMovie] = []
+    private let disposedBag = DisposeBag()
     
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -63,37 +63,26 @@ class MostPopularMovieViewController: UIViewController {
         setupUI()
         navigationBarSetup()
         setIndicator()
+        navigate()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        mostPopularCollectionView.contentSize = CGSize(width: mostPopularCollectionView.frame.width, height:  UIScreen.main.bounds.height)
-        scrollView.delegate = self
-        scrollView.contentSize = CGSize(width: scrollView.frame.width, height:  UIScreen.main.bounds.height)
-    }
-    
+ 
     //MARK: Functions
-    
+
     private func service() {
-        
-        mostPopularMovieViewModel.service(url: Constants.popularMovieUrl) { models in
-            self.allMovies = models
-            self.mostPopularMovieCollecionView.update(items: models)
-            self.mostPopularCollectionView.reloadData()
-            self.activityIndicator.stopAnimating()
-            
-        } onFail: { error in
-            print(error ?? Constants.nilValue)
-        }
+        mostPopularMovieCollecionView.fillCollectionView(collectionView: mostPopularCollectionView, model: mostPopularMovieViewModel.service(url: Constants.popularMovieUrl))
     }
     
+    private func navigate() {
+        mostPopularMovieCollecionView.navigate(collectionView: mostPopularCollectionView, navigateController: navigationController!)
+    }
+
     private func initDelegate() {
         mostPopularCollectionView.delegate = mostPopularMovieCollecionView
-        mostPopularCollectionView.dataSource = mostPopularMovieCollecionView
         mostPopularMovieCollecionView.delegate = self
     }
     
     private func navigationBarSetup() {
+        
         navigationController?.navigationBar.prefersLargeTitles = false
         searchBar.placeholder = Constants.searchTitle
         searchBar.sizeToFit()
@@ -101,6 +90,7 @@ class MostPopularMovieViewController: UIViewController {
         searchBar.restorationIdentifier = Constants.searchBarID
         let leftNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton
+        
     }
     
     private func setupUI() {
@@ -122,34 +112,32 @@ class MostPopularMovieViewController: UIViewController {
     }
     
     private func setIndicator() {
+        
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.medium
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
+        
     }
 }
 
 //MARK: Extensions
 
-extension MostPopularMovieViewController: MostPopularMovieCollecionViewOutput{
-    
-    func getNavCont() -> UINavigationController? {
-        return navigationController
-    }
-}
-
-extension MostPopularMovieViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchedMovie = allMovies.filter({($0.original_title?.prefix(searchText.count))! == searchText})
-        if searchedMovie.count == 0 {
-            
-        }else {
-            mostPopularMovieCollecionView.update(items: searchedMovie)
-            mostPopularCollectionView.reloadData()
-        }
-        
-    }
-}
-
+extension MostPopularMovieViewController: MostPopularMovieCollecionViewOutput {}
 extension MostPopularMovieViewController: UIScrollViewDelegate {}
+extension MostPopularMovieViewController: UISearchBarDelegate {
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//       searchedMovie = allMovies.filter({($0.original_title?.prefix(searchText.count))! == searchText})
+//        if searchedMovie.count == 0 {
+//
+//        }else {
+//           mostPopularMovieCollecionView.update(items: searchedMovie)
+//            mostPopularCollectionView.reloadData()
+//        }
+    }
+}
+
+

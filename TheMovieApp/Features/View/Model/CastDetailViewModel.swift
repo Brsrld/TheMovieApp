@@ -6,31 +6,33 @@
 //
 
 import Foundation
-
+import RxCocoa
+import RxSwift
 //MARK: Protocols
 
 protocol CastDetailViewModelProtocol {
-    func servicePerson(url:String, onSuccess: @escaping (CastPeople) -> Void, onFail: @escaping (String?) -> Void)
-    func serviceCreditsMovie(url:String, onSuccess: @escaping ([PeopleMovieCredits]) -> Void, onFail: @escaping (String?) -> Void)
-    func serviceCreditsTv(url:String, onSuccess: @escaping ([PeopleTvCredits]) -> Void, onFail: @escaping (String?) -> Void)
+    func personService(url:String) -> Observable<CastPeople>
+    func credistMovieService(url:String) -> Observable<[PeopleMovieCredits]>
+    func credistTvService(url:String) -> Observable<[PeopleTvCredits]>
+
 }
 
 //MARK: Model Logic
 
 final class CastDetailViewModel:NSObject {
     
-    private let castDetailViewModelService: MostPopularModelServiceProtocol = MostPopularModelService()
+    private let serviceinit: ServiceInit = ServiceInit()
     
-    func servicePerson(url:String, onSuccess: @escaping (CastPeople) -> Void, onFail: @escaping (String?) -> Void) {
-        castDetailViewModelService.fetchPerson(url: url, onSuccess: onSuccess, onFail: onFail)
+    func personService(url:String) -> Observable<CastPeople>  {
+        serviceinit.getPerson(url: url)
     }
     
-    func serviceCreditsMovie(url:String, onSuccess: @escaping ([PeopleMovieCredits]) -> Void, onFail: @escaping (String?) -> Void) {
-        castDetailViewModelService.fetchCreditsMovie(url: url, onSuccess: onSuccess, onFail: onFail)
+    func credistMovieService(url:String) -> Observable<[PeopleMovieCredits]>  {
+        serviceinit.getCreditsMovie(url: url)
     }
     
-    func serviceCreditsTv(url:String, onSuccess: @escaping ([PeopleTvCredits]) -> Void, onFail: @escaping (String?) -> Void) {
-        castDetailViewModelService.fetchCreditsTv(url: url, onSuccess: onSuccess, onFail: onFail)
+    func credistTvService(url:String) -> Observable<[PeopleTvCredits]>  {
+        serviceinit.fetchCreditsTv(url: url)
     }
 }
 

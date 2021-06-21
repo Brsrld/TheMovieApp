@@ -7,43 +7,43 @@
 
 import Foundation
 import UIKit
+import RxCocoa
+import RxSwift
 
 //MARK: Protocols
 
-protocol MovieDetailCastCollectionViewProtocol {
-    func update (items: [CastPersons])
+protocol MovieDetailCastCollectionViewProtocol: AnyObject {
+    func fillCollectionView(collectionView: UICollectionView, model: Observable<[CastPersons]>)
 }
 
-protocol MovieDetailCastCollectionViewViewOutput: AnyObject {
-    func getNavCont() -> UINavigationController?
-}
+protocol MovieDetailCastCollectionViewOutput: AnyObject {}
 
 //MARK: CollectionView Functions
 
 final class MovieDetailCastCollectionView: NSObject{
     
-    private lazy var items: [CastPersons] = []
+    private var persons: CastPersons?
+    private let disposedBag = DisposeBag()
     
-    weak var delegate: MovieDetailCastCollectionViewViewOutput?
+    weak var delegate: MovieDetailCastCollectionViewOutput?
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+    func fillCollectionView(collectionView: UICollectionView, model: Observable<[CastPersons]>) {
+        model.bind(to: collectionView.rx.items(cellIdentifier: Constants.movieDetailCastCollectionViewCellID, cellType: MovieDetailCastCollectionViewCell.self)) {
+            (index,cast,cell) in
+            self.persons = cast
+            cell.configure(title: cast.name ?? Constants.nilValue , url: cast.profile_path ?? Constants.nilValue)
+        }.disposed(by: disposedBag)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var cell = UICollectionViewCell()
-        
-        if let dataCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.movieDetailCastCollectionViewCellID, for: indexPath) as? MovieDetailCastCollectionViewCell {
-            dataCell.configure(title: items[indexPath.row].name ?? Constants.nilValue, url: items[indexPath.row].profile_path ?? Constants.nilValue)
-            cell = dataCell
-        }
-        return cell
-    }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = CastDetailViewController()
-        vc.persons = items[indexPath.row]
-        delegate?.getNavCont()?.pushViewController(vc, animated: true)
+    func navigate(collectionView: UICollectionView,navigateController:UINavigationController) {
+        collectionView.rx.itemSelected
+                    .subscribe(onNext: { index in
+                        let vc = CastDetailViewController()
+                        vc.persons = self.persons
+                        navigateController.pushViewController(vc, animated: true)
+                    })
+                    .disposed(by: disposedBag)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -52,23 +52,19 @@ final class MovieDetailCastCollectionView: NSObject{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let columns: CGFloat = 1.4
-        let collectionViewWidth = collectionView.bounds.width
-        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-        let spaceBetweenCells = flowLayout.minimumInteritemSpacing * (columns - 1)
-        let sectionInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-        let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
-        let width: CGFloat = floor(adjustedWidth / columns)
-        let height: CGFloat = width / 2
-        return CGSize(width: height, height: width / 1.2)
-    }
+                let collectionViewWidth = collectionView.bounds.width
+                let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+                let spaceBetweenCells = flowLayout.minimumInteritemSpacing * (columns - 1)
+                let sectionInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right
+                let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
+                let width: CGFloat = floor(adjustedWidth / columns)
+                let height: CGFloat = width / 2
+                return CGSize(width: height, height: width / 1.2)
+      }
 }
 
 //MARK: Extensions
 
-extension MovieDetailCastCollectionView: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {}
-extension MovieDetailCastCollectionView: MovieDetailCastCollectionViewProtocol {
-    func update (items: [CastPersons]) {
-        self.items = items
-    }
-}
+extension MovieDetailCastCollectionView: UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {}
+extension MovieDetailCastCollectionView: MovieDetailCastCollectionViewProtocol {}
 

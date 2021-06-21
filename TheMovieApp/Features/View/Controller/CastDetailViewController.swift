@@ -15,8 +15,8 @@ class CastDetailViewController: UIViewController {
     var persons:CastPersons?
     
     private let castDetailViewModel: CastDetailViewModel = CastDetailViewModel()
-    private let castDetailPeopleMovieCollectionView: CastDetailPeopleMovieCollectionView = CastDetailPeopleMovieCollectionView()
-    private let castDetailPeopleTvCollectonView: CastDetailPeopleTvCollectionView = CastDetailPeopleTvCollectionView()
+    private let castDetailPeopleMovieCollectionView: CastDetailPeopleMovieCollectonView = CastDetailPeopleMovieCollectonView()
+    private let castDetailPeopleTvCollectonView: CastDetailPeopleTvCollectonView = CastDetailPeopleTvCollectonView()
     
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -169,31 +169,36 @@ class CastDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         scrollView.delegate = self
         scrollView.contentSize = CGSize(width: scrollView.frame.width, height:  UIScreen.main.bounds.height)
+        
     }
     
     //MARK: Functions
     
     private func initdelegate() {
+        
         moviesCollectionView.delegate = castDetailPeopleMovieCollectionView
-        moviesCollectionView.dataSource = castDetailPeopleMovieCollectionView
         castDetailPeopleMovieCollectionView.delegate = self
+        
         tVCollectionView.delegate = castDetailPeopleTvCollectonView
-        tVCollectionView.dataSource = castDetailPeopleTvCollectonView
         castDetailPeopleTvCollectonView.delegate = self
     }
     
     private func servicePerson() {
-        castDetailViewModel.servicePerson(url: "\(Constants.personURL)\(persons?.id ?? 0)\(Constants.personUrlExtend)") { models in
-            if models.biography == Constants.nilValue {
-                self.biographyOverviewLabel.text = "We are sorry there is no biography data."
+        
+        castDetailViewModel.personService(url: "\(Constants.personURL)\(persons?.id ?? 0)\(Constants.personUrlExtend)").subscribe(onNext: { bio in
+            if bio.biography == Constants.nilValue {
+                DispatchQueue.main.async {
+                    self.biographyOverviewLabel.text = "We are sorry there is no biography data."
+                }
             } else {
-                self.biographyOverviewLabel.text = models.biography
+                DispatchQueue.main.async {
+                    self.biographyOverviewLabel.text = bio.biography
+                }
             }
-        } onFail: { error in
-            print(error ?? Constants.nilValue)
-        }
+        })
     }
     
     private func configureUI() {
@@ -210,21 +215,11 @@ class CastDetailViewController: UIViewController {
     }
     
     private func serviceMovie() {
-        castDetailViewModel.serviceCreditsMovie(url: "\(Constants.personCreditsUrl)\(persons?.id ?? 0)\(Constants.personCreditExtension)") { models in
-            self.castDetailPeopleMovieCollectionView.update(items: models)
-            self.moviesCollectionView.reloadData()
-        } onFail: { error in
-            print(error ?? Constants.nilValue)
-        }
+        castDetailPeopleMovieCollectionView.fillCollectionView(collectionView: moviesCollectionView, model: castDetailViewModel.credistMovieService(url: "\(Constants.personCreditsUrl)\(persons?.id ?? 0)\(Constants.personCreditExtension)"))
     }
     
     private func serviceTv() {
-        castDetailViewModel.serviceCreditsTv(url: "\(Constants.personCreditsUrl)\(persons?.id ?? 0)\(Constants.personCreditTvExtension)") { models in
-            self.castDetailPeopleTvCollectonView.update(items: models)
-            self.tVCollectionView.reloadData()
-        } onFail: { error in
-            print(error ?? Constants.nilValue)
-        }
+        castDetailPeopleTvCollectonView.fillCollectionView(collectionView: tVCollectionView, model: castDetailViewModel.credistTvService(url: "\(Constants.personCreditsUrl)\(persons?.id ?? 0)\(Constants.personCreditTvExtension)"))
     }
     
     private func shadowForImage() {
@@ -244,7 +239,7 @@ class CastDetailViewController: UIViewController {
         bigImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         bigImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bigImage.heightAnchor.constraint(equalToConstant: view.frame.height / 2.05).isActive = true
-
+        
         viewforImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         viewforImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         viewforImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -254,7 +249,7 @@ class CastDetailViewController: UIViewController {
         personImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100).isActive = true
         personImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100).isActive = true
         personImage.heightAnchor.constraint(equalToConstant: view.frame.height / 3).isActive = true
-     
+        
         nameLabel.topAnchor.constraint(equalTo: personImage.bottomAnchor, constant: 20).isActive = true
         nameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
         nameLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
@@ -279,7 +274,6 @@ class CastDetailViewController: UIViewController {
         moviesCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         moviesCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         moviesCollectionView.heightAnchor.constraint(equalToConstant: view.frame.height / 5).isActive = true
-        moviesCollectionView.bottomAnchor.constraint(equalTo: tvLabel.topAnchor, constant: -20).isActive = true
         
         tvLabel.topAnchor.constraint(equalTo: moviesCollectionView.bottomAnchor, constant: 30).isActive = true
         tvLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
@@ -289,13 +283,13 @@ class CastDetailViewController: UIViewController {
         tVCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         tVCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         tVCollectionView.heightAnchor.constraint(equalToConstant: view.frame.height / 5).isActive = true
-        tVCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20).isActive = true
+        tVCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 20).isActive = true
     }
 }
 
 //MARK: Extensions
 
 extension CastDetailViewController: UIScrollViewDelegate {}
-extension CastDetailViewController:  CastDetailPeopleMovieCollectionViewOutput {}
-extension CastDetailViewController:  CastDetailPeopleTvCollectionViewOutput {}
+extension CastDetailViewController:  CastDetailPeopleMovieCollectonViewOutput {}
+extension CastDetailViewController:  CastDetailPeopleTvCollectonViewOutput {}
 

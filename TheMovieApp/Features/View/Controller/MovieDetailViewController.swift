@@ -9,6 +9,8 @@ import UIKit
 import Kingfisher
 import Cosmos
 import TinyConstraints
+import RxSwift
+import RxCocoa
 
 class MovieDetailViewController: UIViewController {
     
@@ -19,6 +21,7 @@ class MovieDetailViewController: UIViewController {
     private let movieDetailVideosCollectionView: MovieDetailVideosCollectionView = MovieDetailVideosCollectionView()
     
     var moviesDetail: MostPopularMovie?
+    private let disposedBag = DisposeBag()
     
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -175,6 +178,7 @@ class MovieDetailViewController: UIViewController {
         configureItems()
         service()
         initDelegate()
+        navigate() 
     }
     
     override func viewDidLayoutSubviews() {
@@ -189,27 +193,20 @@ class MovieDetailViewController: UIViewController {
     //MARK: Functions
     
     private func service() {
+        movieDetailCastCollecionView.fillCollectionView(collectionView: castsCollectionView, model: movieDetailViewModel.castService(url:"\(Constants.urlforCast)\(moviesDetail?.id ?? 0)\(Constants.credistExtension)"))
         
-        movieDetailViewModel.castService(url: "\(Constants.urlforCast)\(moviesDetail?.id ?? 0)\(Constants.credistExtension)") { models in
-            self.movieDetailCastCollecionView.update(items: models)
-            self.castsCollectionView.reloadData()
-        } onFail: { error in
-            print(error ?? Constants.nilValue)
-        }
-        movieDetailViewModel.videoService(url: "\(Constants.urlforCast)\(moviesDetail?.id ?? 0)\(Constants.videoExtend)") { models in
-            self.movieDetailVideosCollectionView.update(items: models)
-            self.videosCollectionView.reloadData()
-        } onFail: { error in
-            print(error ?? Constants.nilValue)
-        }
+        movieDetailVideosCollectionView.fillCollectionView(collectionView: videosCollectionView, model: movieDetailViewModel.videoService(url:  "\(Constants.urlforCast)\(moviesDetail?.id ?? 0)\(Constants.videoExtend)"))
+    }
+    
+    private func navigate() {
+        movieDetailCastCollecionView.navigate(collectionView: castsCollectionView, navigateController: navigationController!)
     }
     
     private func initDelegate() {
-        castsCollectionView.delegate = movieDetailCastCollecionView
-        castsCollectionView.dataSource = movieDetailCastCollecionView
         movieDetailCastCollecionView.delegate = self
+        castsCollectionView.delegate = movieDetailCastCollecionView
+        
         videosCollectionView.delegate = movieDetailVideosCollectionView
-        videosCollectionView.dataSource = movieDetailVideosCollectionView
         movieDetailVideosCollectionView.delegate = self
     }
     
@@ -243,7 +240,7 @@ class MovieDetailViewController: UIViewController {
         viewforImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         viewforImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         viewforImage.heightAnchor.constraint(equalToConstant: view.frame.height / 1.9).isActive = true
-
+        
         movieImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 40).isActive = true
         movieImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100).isActive = true
         movieImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100).isActive = true
@@ -286,9 +283,5 @@ class MovieDetailViewController: UIViewController {
 //MARK: Extension
 
 extension MovieDetailViewController:UIScrollViewDelegate {}
-extension MovieDetailViewController:MovieDetailCastCollectionViewViewOutput{
-    func getNavCont() -> UINavigationController? {
-        return navigationController
-    }
-}
-extension MovieDetailViewController:MovieDetailVideosCollectionViewOutput{}
+extension MovieDetailViewController:MovieDetailCastCollectionViewOutput {}
+extension MovieDetailViewController:MovieDetailVideosCollectionViewOutput {}

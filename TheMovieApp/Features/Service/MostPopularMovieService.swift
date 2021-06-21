@@ -13,75 +13,131 @@ import RxSwift
 //MARK: Protocol
 
 protocol MostPopularModelServiceProtocol {
-    func fetchPopularMovie(url:String, onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void)
-    func fetchCast(url:String, onSuccess: @escaping ([CastPersons]) -> Void, onFail: @escaping (String?) -> Void)
-    func fetchVideo(url:String, onSuccess: @escaping ([MovieVideos]) -> Void, onFail: @escaping (String?) -> Void)
-    func fetchPerson(url:String, onSuccess: @escaping (CastPeople) -> Void, onFail: @escaping (String?) -> Void)
-    func fetchCreditsMovie(url:String, onSuccess: @escaping ([PeopleMovieCredits]) -> Void, onFail: @escaping (String?) -> Void)
-    func fetchCreditsTv(url:String, onSuccess: @escaping ([PeopleTvCredits]) -> Void, onFail: @escaping (String?) -> Void)
+    
+    func fetchPopularMovie <MostPopularMovie:Decodable>(url:String) -> Observable<MostPopularMovie>
+    func fetchCast <CastPersons:Decodable>(url:String) -> Observable<CastPersons>
+    func fetchMovie <MovieVideos:Decodable>(url:String) -> Observable<MovieVideos>
+    func fetchPerson <CastPeople:Decodable>(url:String) -> Observable<CastPeople>
+    func fetchCreditsMovie <PeopleMovieCredits:Decodable>(url:String) -> Observable<PeopleMovieCredits>
+    func fetchCreditsTv <PeopleTvCredits:Decodable>(url:String) -> Observable<PeopleTvCredits>
+    
 }
 
 //MARK: Get Datas
 
-struct MostPopularModelService: MostPopularModelServiceProtocol {
+struct MostPopularModelService: MostPopularModelServiceProtocol { 
 
-    func fetchPopularMovie(url:String, onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void) {
-        AF.request(url, method: .get).validate().responseDecodable(of: Result.self) { (response) in
-            guard let items = response.value else {
-                onFail(response.debugDescription)
-                return
+    func fetchPopularMovie <MostPopularMovie:Decodable>(url:String) -> Observable<MostPopularMovie> {
+        return Observable.create { observer -> Disposable in
+            let task = URLSession.shared.dataTask(with: URL(string: url)!) { data, _, _ in
+                guard let data = data else {
+                    return
+                }
+                guard let decoded = try? JSONDecoder().decode(Result.self, from: data) else {
+                    return
+                }
+                observer.onNext(decoded.results as! MostPopularMovie)
+                observer.onCompleted()
             }
-            onSuccess(items.results)
+            task.resume()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
     
-    func fetchCast(url:String, onSuccess: @escaping ([CastPersons]) -> Void, onFail: @escaping (String?) -> Void) {
-        AF.request(url, method: .get).validate().responseDecodable(of: Cast.self) { (response) in
-            guard let items = response.value else {
-                onFail(response.debugDescription)
-                return
+    func fetchCast <CastPersons:Decodable>(url:String) -> Observable<CastPersons> {
+        return Observable.create { observer -> Disposable in
+            let task = URLSession.shared.dataTask(with: URL(string: url)!) { data, _, _ in
+                guard let data = data else {
+                    return
+                }
+                guard let decoded = try? JSONDecoder().decode(Cast.self, from: data) else {
+                    return
+                }
+                observer.onNext(decoded.cast as! CastPersons)
+                observer.onCompleted()
             }
-            onSuccess(items.cast)
+            task.resume()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
     
-    func fetchVideo(url:String, onSuccess: @escaping ([MovieVideos]) -> Void, onFail: @escaping (String?) -> Void) {
-        AF.request(url, method: .get).validate().responseDecodable(of: Videos.self) { (response) in
-            guard let items = response.value else {
-                onFail(response.debugDescription)
-                return
+    func fetchMovie <MovieVideos:Decodable>(url:String) -> Observable<MovieVideos> {
+        return Observable.create { observer -> Disposable in
+            let task = URLSession.shared.dataTask(with: URL(string: url)!) { data, _, _ in
+                guard let data = data else {
+                    return
+                }
+                guard let decoded = try? JSONDecoder().decode(Videos.self, from: data) else {
+                    return
+                }
+                observer.onNext(decoded.results as! MovieVideos)
+                observer.onCompleted()
             }
-            onSuccess(items.results)
+            task.resume()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
     
-    func fetchPerson(url:String, onSuccess: @escaping (CastPeople) -> Void, onFail: @escaping (String?) -> Void) {
-        AF.request(url, method: .get).validate().responseDecodable(of: CastPeople.self) { (response) in
-            guard let items = response.value else {
-                onFail(response.debugDescription)
-                return
+    func fetchPerson <CastPeople:Decodable>(url:String) -> Observable<CastPeople> {
+        return Observable.create { observer -> Disposable in
+            let task = URLSession.shared.dataTask(with: URL(string: url)!) { data, _, _ in
+                guard let data = data else {
+                    return
+                }
+                guard let decoded = try? JSONDecoder().decode(CastPeople.self, from: data) else {
+                    return
+                }
+                observer.onNext(decoded)
+                observer.onCompleted()
             }
-            onSuccess(items)
+            task.resume()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
     
-    func fetchCreditsMovie(url:String, onSuccess: @escaping ([PeopleMovieCredits]) -> Void, onFail: @escaping (String?) -> Void) {
-        AF.request(url, method: .get).validate().responseDecodable(of: MovieCredits.self) { (response) in
-            guard let items = response.value else {
-                onFail(response.debugDescription)
-                return
+    func fetchCreditsMovie <PeopleMovieCredits:Decodable>(url:String) -> Observable<PeopleMovieCredits> {
+        return Observable.create { observer -> Disposable in
+            let task = URLSession.shared.dataTask(with: URL(string: url)!) { data, _, _ in
+                guard let data = data else {
+                    return
+                }
+                guard let decoded = try? JSONDecoder().decode(MovieCredits.self, from: data) else {
+                    return
+                }
+                observer.onNext(decoded.cast as! PeopleMovieCredits)
+                observer.onCompleted()
             }
-            onSuccess(items.cast)
+            task.resume()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
-
-    func fetchCreditsTv(url:String, onSuccess: @escaping ([PeopleTvCredits]) -> Void, onFail: @escaping (String?) -> Void) {
-        AF.request(url, method: .get).validate().responseDecodable(of: TvCredits.self) { (response) in
-            guard let items = response.value else {
-                onFail(response.debugDescription)
-                return
+    
+    func fetchCreditsTv <PeopleTvCredits:Decodable>(url:String) -> Observable<PeopleTvCredits> {
+        return Observable.create { observer -> Disposable in
+            let task = URLSession.shared.dataTask(with: URL(string: url)!) { data, _, _ in
+                guard let data = data else {
+                    return
+                }
+                guard let decoded = try? JSONDecoder().decode(TvCredits.self, from: data) else {
+                    return
+                }
+                observer.onNext(decoded.cast as! PeopleTvCredits)
+                observer.onCompleted()
             }
-            onSuccess(items.cast)
+            task.resume()
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
 }

@@ -6,25 +6,28 @@
 //
 
 import Foundation
+import RxCocoa
+import RxSwift
 
 //MARK: Protocols
 
 protocol MovieDetailViewModelProtocol {
-    func castService(url:String, onSuccess: @escaping ([CastPersons]) -> Void, onFail: @escaping (String?) -> Void)
+    func castService(url:String) -> Observable<[CastPersons]>
+    func videoService(url:String) -> Observable<[MovieVideos]>
 }
 
 //MARK: Model Logic
 
 final class MovieDetailViewModel:NSObject {
     
-    private let movieDetailViewModelService: MostPopularModelServiceProtocol = MostPopularModelService()
+    private let serviceinit: ServiceInit = ServiceInit()
     
-    func castService(url:String, onSuccess: @escaping ([CastPersons]) -> Void, onFail: @escaping (String?) -> Void) {
-        movieDetailViewModelService.fetchCast(url: url, onSuccess: onSuccess, onFail: onFail)
+    func castService(url:String) -> Observable<[CastPersons]> {
+        return serviceinit.getCast(url: url)
     }
     
-    func videoService(url:String, onSuccess: @escaping ([MovieVideos]) -> Void, onFail: @escaping (String?) -> Void) {
-        movieDetailViewModelService.fetchVideo(url: url, onSuccess: onSuccess, onFail: onFail)
+    func videoService(url:String) -> Observable<[MovieVideos]> {
+        return serviceinit.getVideo(url:url)
     }
 }
 

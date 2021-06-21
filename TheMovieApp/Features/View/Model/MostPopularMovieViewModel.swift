@@ -6,21 +6,23 @@
 //
 
 import Foundation
+import RxCocoa
+import RxSwift
 
 //MARK: Protocols
 
 protocol MostPopularMovieViewModelProtocol {
-    func service(url:String, onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void)
+    func service(url:String) -> Observable<[MostPopularMovie]>
 }
 
 //MARK: Model Logic
 
 final class MostPopularMovieViewModel:NSObject {
-    
-    private let mostPopularModelService: MostPopularModelServiceProtocol = MostPopularModelService()
-    
-    func service(url:String, onSuccess: @escaping ([MostPopularMovie]) -> Void, onFail: @escaping (String?) -> Void) {
-        mostPopularModelService.fetchPopularMovie(url: url, onSuccess: onSuccess, onFail: onFail)
+
+    private let serviceinit: ServiceInit = ServiceInit()
+     
+    func service(url:String) -> Observable<[MostPopularMovie]> {
+        return serviceinit.getPopularMovie(url:url)
     }
 }
 
