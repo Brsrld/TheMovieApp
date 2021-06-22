@@ -20,7 +20,7 @@ class CastPeopleTVCreditsCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.addSubview(movieImage)
+      
         setupUI()
         shadowEffect()
     }
@@ -28,6 +28,7 @@ class CastPeopleTVCreditsCollectionViewCell: UICollectionViewCell {
     // MARK: Functions
     
     private func setupUI() {
+        contentView.addSubview(movieImage)
        movieImage.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width , height: contentView.frame.size.height)
     }
     

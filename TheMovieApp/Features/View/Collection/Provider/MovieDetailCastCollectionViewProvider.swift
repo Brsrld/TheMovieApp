@@ -38,12 +38,12 @@ final class MovieDetailCastCollectionView: NSObject{
     
     func navigate(collectionView: UICollectionView,navigateController:UINavigationController) {
         collectionView.rx.itemSelected
-                    .subscribe(onNext: { index in
-                        let vc = CastDetailViewController()
-                        vc.persons = self.persons
-                        navigateController.pushViewController(vc, animated: true)
-                    })
-                    .disposed(by: disposedBag)
+            .subscribe(onNext: { index in
+                let vc = CastDetailViewController()
+                vc.persons = self.persons
+                navigateController.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposedBag)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -52,19 +52,22 @@ final class MovieDetailCastCollectionView: NSObject{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let columns: CGFloat = 1.4
-                let collectionViewWidth = collectionView.bounds.width
-                let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-                let spaceBetweenCells = flowLayout.minimumInteritemSpacing * (columns - 1)
-                let sectionInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-                let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
-                let width: CGFloat = floor(adjustedWidth / columns)
-                let height: CGFloat = width / 2
-                return CGSize(width: height, height: width / 1.2)
-      }
+        let collectionViewWidth = collectionView.bounds.width
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        let spaceBetweenCells = flowLayout.minimumInteritemSpacing * (columns - 1)
+        let sectionInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right
+        let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
+        let width: CGFloat = floor(adjustedWidth / columns)
+        let height: CGFloat = width / 2
+        return CGSize(width: height, height: width / 1.2)
+    }
 }
 
-//MARK: Extensions
+//MARK: - UICollectionViewDelegate,UICollectionViewDelegateFlowLayout
 
 extension MovieDetailCastCollectionView: UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {}
+
+//MARK: - MovieDetailCastCollectionViewProtocol
+
 extension MovieDetailCastCollectionView: MovieDetailCastCollectionViewProtocol {}
 

@@ -34,10 +34,6 @@ class MovieDetailCastCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.addSubview(actorImage)
-        contentView.addSubview(actorNameLabel)
-        contentView.backgroundColor = .white
-        
         setupUI()
         shadowEffect()
     }
@@ -45,6 +41,11 @@ class MovieDetailCastCollectionViewCell: UICollectionViewCell {
     // MARK: Functions
     
     private func setupUI() {
+        
+        contentView.addSubview(actorImage)
+        contentView.addSubview(actorNameLabel)
+        contentView.backgroundColor = .white
+        
         actorImage.frame = CGRect(x:0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height / 1.2)
         actorNameLabel.frame = CGRect(x:0, y: actorImage.frame.height, width: contentView.frame.size.width, height: contentView.frame.size.height - actorImage.frame.size.height )
     

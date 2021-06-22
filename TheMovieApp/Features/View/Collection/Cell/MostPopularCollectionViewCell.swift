@@ -46,10 +46,7 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.addSubview(movieImageLabel)
-        contentView.addSubview(movieNameLabel)
-        contentView.addSubview(movieOverviewLabel)
-        contentView.backgroundColor = .white
+      
         setupUI()
         shadowForContentView()
         shadowForImage()
@@ -58,6 +55,12 @@ class MostPopularCollectionViewCell: UICollectionViewCell {
     // MARK: Functions
     
     private func setupUI() {
+        
+        contentView.addSubview(movieImageLabel)
+        contentView.addSubview(movieNameLabel)
+        contentView.addSubview(movieOverviewLabel)
+        contentView.backgroundColor = .white
+        
         contentView.frame = CGRect(x: 0, y: 60, width: contentView.frame.size.width, height: contentView.frame.size.height)
         movieImageLabel.frame = CGRect(x: 0, y: -50, width: contentView.frame.size.width / 2.5, height: contentView.frame.size.height + 50)
         movieNameLabel.frame = CGRect(x: movieImageLabel.frame.width + 10, y:10, width: contentView.frame.size.width - movieImageLabel.frame.width - 10, height: contentView.frame.size.height / 3)

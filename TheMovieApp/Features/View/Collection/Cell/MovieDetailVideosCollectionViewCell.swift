@@ -35,9 +35,7 @@ class MovieDetailVideosCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.addSubview(videoNameLabel)
-        contentView.addSubview(videoPlayer)
-        contentView.backgroundColor = .systemBackground
+        
         shadowForContentView()
         videoPlayer.delegate = self
         setupUI()
@@ -48,6 +46,9 @@ class MovieDetailVideosCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
+        contentView.addSubview(videoNameLabel)
+        contentView.addSubview(videoPlayer)
+        contentView.backgroundColor = .systemBackground
        videoPlayer.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
     }
     

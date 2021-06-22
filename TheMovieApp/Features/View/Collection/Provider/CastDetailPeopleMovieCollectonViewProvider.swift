@@ -48,11 +48,14 @@ final class CastDetailPeopleMovieCollectonView: NSObject{
           let adjustedWidth = collectionViewWidth - spaceBetweenCells - sectionInsets
           let width: CGFloat = floor(adjustedWidth / columns)
           let height: CGFloat = width / 2
-          return CGSize(width: height / 1.5, height: width / 2)
+        return CGSize(width: height / 1.8, height: width / 2.3)
       }
 }
 
-//MARK: Extensions
+//MARK: - UICollectionViewDelegate,UICollectionViewDelegateFlowLayout
 
 extension CastDetailPeopleMovieCollectonView: UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {}
+
+//MARK: - CastDetailPeopleMovieCollectonViewProtocol
+
 extension CastDetailPeopleMovieCollectonView: CastDetailPeopleMovieCollectonViewProtocol {}

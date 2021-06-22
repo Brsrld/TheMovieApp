@@ -36,4 +36,6 @@ final class CastDetailViewModel:NSObject {
     }
 }
 
+//MARK: - CastDetailViewModelProtocol
+
 extension CastDetailViewModel: CastDetailViewModelProtocol {}

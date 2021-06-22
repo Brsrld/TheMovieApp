@@ -14,10 +14,10 @@ class CastDetailViewController: UIViewController {
     
     var persons:CastPersons?
     
-    private let castDetailViewModel: CastDetailViewModel = CastDetailViewModel()
+    private let castDetailViewModel: CastDetailViewModelProtocol = CastDetailViewModel()
     private let castDetailPeopleMovieCollectionView: CastDetailPeopleMovieCollectonView = CastDetailPeopleMovieCollectonView()
     private let castDetailPeopleTvCollectonView: CastDetailPeopleTvCollectonView = CastDetailPeopleTvCollectonView()
-    
+        
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -139,32 +139,14 @@ class CastDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(scrollView)
-        
-        scrollView.addSubview(bigImage)
-        scrollView.addSubview(viewforImage)
-        scrollView.addSubview(personImage)
-        scrollView.addSubview(nameLabel)
-        scrollView.addSubview(statusLabel)
-        scrollView.addSubview(biographyLabel)
-        scrollView.addSubview(biographyOverviewLabel)
-        scrollView.addSubview(moviesLabel)
-        scrollView.addSubview(moviesCollectionView)
-        scrollView.addSubview(tvLabel)
-        scrollView.addSubview(tVCollectionView)
-        
-        scrollView.backgroundColor = .systemBackground
-        viewforImage.backgroundColor = UIColor.white.withAlphaComponent(0.75)
-        
-        servicePerson()
+    
         setupUI()
+        servicePerson()
         configureUI()
         shadowForImage()
         initdelegate()
         serviceMovie()
         serviceTv()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -172,7 +154,6 @@ class CastDetailViewController: UIViewController {
         
         scrollView.delegate = self
         scrollView.contentSize = CGSize(width: scrollView.frame.width, height:  UIScreen.main.bounds.height)
-        
     }
     
     //MARK: Functions
@@ -187,7 +168,6 @@ class CastDetailViewController: UIViewController {
     }
     
     private func servicePerson() {
-        
         castDetailViewModel.personService(url: "\(Constants.personURL)\(persons?.id ?? 0)\(Constants.personUrlExtend)").subscribe(onNext: { bio in
             if bio.biography == Constants.nilValue {
                 DispatchQueue.main.async {
@@ -230,6 +210,23 @@ class CastDetailViewController: UIViewController {
     
     private func setupUI() {
         
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(bigImage)
+        scrollView.addSubview(viewforImage)
+        scrollView.addSubview(personImage)
+        scrollView.addSubview(nameLabel)
+        scrollView.addSubview(statusLabel)
+        scrollView.addSubview(biographyLabel)
+        scrollView.addSubview(biographyOverviewLabel)
+        scrollView.addSubview(moviesLabel)
+        scrollView.addSubview(moviesCollectionView)
+        scrollView.addSubview(tvLabel)
+        scrollView.addSubview(tVCollectionView)
+        
+        scrollView.backgroundColor = .systemBackground
+        viewforImage.backgroundColor = UIColor.white.withAlphaComponent(0.75)
+        
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -238,12 +235,12 @@ class CastDetailViewController: UIViewController {
         bigImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         bigImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         bigImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        bigImage.heightAnchor.constraint(equalToConstant: view.frame.height / 2.05).isActive = true
+        bigImage.heightAnchor.constraint(equalToConstant: view.frame.height / 1.9).isActive = true
         
         viewforImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         viewforImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         viewforImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        viewforImage.heightAnchor.constraint(equalToConstant: view.frame.height / 2.05).isActive = true
+        viewforImage.heightAnchor.constraint(equalToConstant: view.frame.height / 1.9).isActive = true
         
         personImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
         personImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100).isActive = true
@@ -258,7 +255,7 @@ class CastDetailViewController: UIViewController {
         statusLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
         statusLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
         
-        biographyLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 30).isActive = true
+        biographyLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 55).isActive = true
         biographyLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         biographyLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
@@ -283,13 +280,19 @@ class CastDetailViewController: UIViewController {
         tVCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         tVCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         tVCollectionView.heightAnchor.constraint(equalToConstant: view.frame.height / 5).isActive = true
-        tVCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 20).isActive = true
+        tVCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20).isActive = true
     }
 }
 
-//MARK: Extensions
+//MARK: - UIScrollViewDelegate
 
 extension CastDetailViewController: UIScrollViewDelegate {}
-extension CastDetailViewController:  CastDetailPeopleMovieCollectonViewOutput {}
-extension CastDetailViewController:  CastDetailPeopleTvCollectonViewOutput {}
+
+//MARK: - CastDetailPeopleMovieCollectonViewOutput
+
+extension CastDetailViewController: CastDetailPeopleMovieCollectonViewOutput {}
+
+//MARK: - CastDetailPeopleTvCollectonViewOutput
+
+extension CastDetailViewController: CastDetailPeopleTvCollectonViewOutput {}
 

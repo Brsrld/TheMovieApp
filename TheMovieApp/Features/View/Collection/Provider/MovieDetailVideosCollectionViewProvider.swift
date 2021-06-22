@@ -48,7 +48,10 @@ final class MovieDetailVideosCollectionView: NSObject{
       }
 }
 
-//MARK: Extensions
+//MARK: - UICollectionViewDelegate,UICollectionViewDelegateFlowLayout
 
 extension MovieDetailVideosCollectionView: UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {}
+
+//MARK: - MovieDetailVideosCollectionViewProtocol
+
 extension MovieDetailVideosCollectionView: MovieDetailVideosCollectionViewProtocol {}

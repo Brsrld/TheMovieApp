@@ -13,10 +13,9 @@ class MostPopularMovieViewController: UIViewController {
     
     //MARK: Variables
     
-    private var mostPopularMovieViewModel: MostPopularMovieViewModel = MostPopularMovieViewModel()
+    private var mostPopularMovieViewModel: MostPopularMovieViewModelProtocol = MostPopularMovieViewModel()
     private let mostPopularMovieCollecionView: MostPopularMovieCollecionView = MostPopularMovieCollecionView()
     
-    lazy var searchBar:UISearchBar = UISearchBar()
     private var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     private let disposedBag = DisposeBag()
     
@@ -26,7 +25,7 @@ class MostPopularMovieViewController: UIViewController {
         return scroll
     }()
     
-    let mostPopularCollectionView:UICollectionView = {
+    let mostPopularCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -53,47 +52,38 @@ class MostPopularMovieViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(scrollView)
-        view.backgroundColor = .white
         
-        scrollView.addSubview(mostPopularCollectionView)
-        scrollView.addSubview(titleLabel)
-        
-        service()
-        initDelegate()
         setupUI()
-        navigationBarSetup()
         setIndicator()
+        initDelegate()
+        service()
         navigate()
     }
- 
+    
     //MARK: Functions
-
+    
     private func service() {
+        activityIndicator.stopAnimating()
         mostPopularMovieCollecionView.fillCollectionView(collectionView: mostPopularCollectionView, model: mostPopularMovieViewModel.service(url: Constants.popularMovieUrl))
     }
     
     private func navigate() {
         mostPopularMovieCollecionView.navigate(collectionView: mostPopularCollectionView, navigateController: navigationController!)
     }
-
+    
     private func initDelegate() {
+       
         mostPopularCollectionView.delegate = mostPopularMovieCollecionView
         mostPopularMovieCollecionView.delegate = self
     }
     
-    private func navigationBarSetup() {
-        
-        navigationController?.navigationBar.prefersLargeTitles = false
-        searchBar.placeholder = Constants.searchTitle
-        searchBar.sizeToFit()
-        searchBar.delegate = self
-        searchBar.restorationIdentifier = Constants.searchBarID
-        let leftNavBarButton = UIBarButtonItem(customView:searchBar)
-        self.navigationItem.leftBarButtonItem = leftNavBarButton
-        
-    }
-    
     private func setupUI() {
+        
+        
+        view.backgroundColor = .white
+        
+        scrollView.addSubview(mostPopularCollectionView)
+        scrollView.addSubview(titleLabel)
         
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -112,32 +102,24 @@ class MostPopularMovieViewController: UIViewController {
     }
     
     private func setIndicator() {
-        
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.medium
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-        
     }
 }
 
-//MARK: Extensions
+//MARK: - MostPopularMovieCollecionViewOutput
 
 extension MostPopularMovieViewController: MostPopularMovieCollecionViewOutput {}
+
+//MARK: - MostPopularMovieCollecionViewOutput
+
 extension MostPopularMovieViewController: UIScrollViewDelegate {}
-extension MostPopularMovieViewController: UISearchBarDelegate {
-    
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//       searchedMovie = allMovies.filter({($0.original_title?.prefix(searchText.count))! == searchText})
-//        if searchedMovie.count == 0 {
-//
-//        }else {
-//           mostPopularMovieCollecionView.update(items: searchedMovie)
-//            mostPopularCollectionView.reloadData()
-//        }
-    }
-}
+
+//MARK: - MostPopularMovieCollecionViewOutput
+
+extension MostPopularMovieViewController: UISearchBarDelegate {}
 
 

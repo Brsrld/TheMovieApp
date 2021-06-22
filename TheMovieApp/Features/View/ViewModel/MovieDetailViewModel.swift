@@ -31,4 +31,6 @@ final class MovieDetailViewModel:NSObject {
     }
 }
 
+//MARK: - MovieDetailViewModelProtocol
+
 extension MovieDetailViewModel: MovieDetailViewModelProtocol {}

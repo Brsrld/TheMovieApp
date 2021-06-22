@@ -9,6 +9,8 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+//MARK: Protocol
+
 protocol ServiceInitProtocol {
     
     func getPopularMovie(url:String) -> Observable<[MostPopularMovie]>
@@ -17,12 +19,13 @@ protocol ServiceInitProtocol {
     func getPerson(url:String) -> Observable<CastPeople>
     func getCreditsMovie(url:String) -> Observable<[PeopleMovieCredits]>
     func fetchCreditsTv(url:String) -> Observable<[PeopleTvCredits]>
-    
 }
 
 final class ServiceInit:NSObject {
     
     private let mostPopularModelService: MostPopularModelServiceProtocol = MostPopularModelService()
+    
+    //MARK: Functions
     
     func getPopularMovie(url:String) -> Observable<[MostPopularMovie]>  {
         return mostPopularModelService.fetchPopularMovie(url: url)

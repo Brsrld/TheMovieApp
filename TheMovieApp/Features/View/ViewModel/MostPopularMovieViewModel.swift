@@ -26,4 +26,6 @@ final class MostPopularMovieViewModel:NSObject {
     }
 }
 
+//MARK: - MostPopularMovieViewModelProtocol
+
 extension MostPopularMovieViewModel: MostPopularMovieViewModelProtocol {}

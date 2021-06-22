@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import Alamofire
 import RxCocoa
 import RxSwift
 
-//MARK: Protocol
+//MARK: Protocols
 
 protocol MostPopularModelServiceProtocol {
     
@@ -20,7 +19,6 @@ protocol MostPopularModelServiceProtocol {
     func fetchPerson <CastPeople:Decodable>(url:String) -> Observable<CastPeople>
     func fetchCreditsMovie <PeopleMovieCredits:Decodable>(url:String) -> Observable<PeopleMovieCredits>
     func fetchCreditsTv <PeopleTvCredits:Decodable>(url:String) -> Observable<PeopleTvCredits>
-    
 }
 
 //MARK: Get Datas
