@@ -5,7 +5,7 @@ Also I used cocoapods dependency manager.
 I used RxSwift both ui processes and service processes.
 I downloaded images with kingfisher framework.
 To fetch movie videos I used youtube_ios_player_helper frame work.
-Movie rate was converted to stars wiith cosmos framework.
+Movie rate was converted to stars with cosmos framework.
 
 # Screens 
 
