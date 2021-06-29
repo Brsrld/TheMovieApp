@@ -7,6 +7,8 @@ I downloaded images with kingfisher framework.
 To fetch movie videos I used youtube_ios_player_helper frame work.
 Movie rate was converted to stars with cosmos framework.
 
+Api: https://developers.themoviedb.org/3
+
 # Screens 
 
 Launch Screen
